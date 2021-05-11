@@ -1,17 +1,12 @@
 <script>
-  export let date
-  export let name
   export let description
   export let images
 </script>
 
 <div class="star-card">
-  <p>{date} 的星星是 <span class="star-name">{name}</span></p>
   <p>{description}</p>
-
   {#each images as image}
-  <div><img src={image} alt={name} /></div>
-
+  <img src={image} alt="星星的图片" />
   {/each}
 </div>
 
@@ -19,6 +14,7 @@
 img {
   max-width: 100%;
   border-radius: 10px;
+  display: block;
 }
 .star-card {
   border-style: dashed;
@@ -27,8 +23,9 @@ img {
   padding: 10px;
   margin-top: 20px;
 }
-.star-name {
-  color: darkcyan;
-  font-weight: bold;
+p {
+  text-align: left;
+  white-space: pre-wrap;
+  padding-left: 10px;
 }
 </style>
