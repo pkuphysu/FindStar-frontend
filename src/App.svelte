@@ -28,7 +28,7 @@ const queryStar = () => {
   <h1>寻找星星</h1>
   <div class="vert-center">
     <span>您的生日是</span>
-    <input type="date" bind:value={date} />
+    <input type="date" bind:value={date} min="1930-01-01" max="2020-12-31" />
   </div>
   <button
     on:click={queryStar}
