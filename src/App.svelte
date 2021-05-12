@@ -74,6 +74,12 @@ button:disabled {
   background-color: #161f27;
   color: #929191;
 }
+input[type=date] {
+  background-color: #2d3947;;
+  color: #bdbdbd;
+  border: none;
+  padding: 5px;
+}
 .vert-center * {
   vertical-align: baseline;
 }
