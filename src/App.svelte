@@ -5,7 +5,7 @@ let starDataPromise
 let prevDate
 const queryStar = () => {
   prevDate = date
-  starDataPromise = fetch('https://xgb.phy.pku.edu.cn/graphql/', {
+  starDataPromise = fetch('https://find-star.xgb.phy.pku.edu.cn/graphql/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
