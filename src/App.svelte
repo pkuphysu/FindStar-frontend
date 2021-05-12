@@ -2,7 +2,9 @@
 import StarCard from './lib/StarCard.svelte'
 let date = '1996-08-17'
 let starDataPromise
+let prevDate
 const queryStar = () => {
+  prevDate = date
   starDataPromise = fetch('https://xgb.phy.pku.edu.cn/graphql/', {
     method: 'POST',
     headers: {
@@ -10,15 +12,15 @@ const queryStar = () => {
     },
     body: JSON.stringify({
       query: `query {
-      birth (date:"${date}") {
-        word
-        imageSet {
-          url
+        birth (date:"${date}") {
+          word
+          imageSet {
+            url
+          }
         }
-      }
-    }`
+      }`
     })
-  }).then(resp => resp.json())
+  }).then((resp) => resp.json())
 }
 </script>
 
@@ -26,15 +28,23 @@ const queryStar = () => {
   <h1>寻找星星</h1>
   <div class="vert-center">
     <span>您的生日是</span>
-    <input type="date" bind:value={date}/>
+    <input type="date" bind:value={date} />
   </div>
-  <button on:click={queryStar}>查看</button>
+  <button
+    on:click={queryStar}
+    disabled={prevDate === date}
+  >
+    查看
+  </button>
   <div>
     {#await starDataPromise}
       Loading...
     {:then starData}
       {#if starData?.data?.birth}
-        <StarCard description={starData.data.birth.word} images={starData.data.birth.imageSet} />
+        <StarCard
+          description={starData.data.birth.word}
+          images={starData.data.birth.imageSet}
+        />
       {:else if starData}
         出了点问题，无法获取信息
       {/if}
@@ -49,9 +59,20 @@ main {
   text-align: center;
   margin: auto;
   max-width: 400px;
+  color: #dbdbdb;
 }
-input[type=date] {
-  display: inline;
+button {
+  background-color: #0b4b0f;
+  color: #dbdbdb;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: large;
+}
+button:disabled {
+  background-color: #161f27;
+  color: #929191;
 }
 .vert-center * {
   vertical-align: baseline;
