@@ -6,7 +6,7 @@
 <div class="star-card">
   <p>{description}</p>
   {#each images as image}
-  <img src={image} alt="星星的图片" />
+  <img src={image.url} alt="星星的图片" />
   {/each}
 </div>
 

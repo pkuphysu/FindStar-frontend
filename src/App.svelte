@@ -1,7 +1,25 @@
 <script>
 import StarCard from './lib/StarCard.svelte'
 let date = '1996-08-17'
-let starData
+let starDataPromise
+const queryStar = () => {
+  starDataPromise = fetch('https://xgb.phy.pku.edu.cn/graphql/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      query: `query {
+      birth (date:"${date}") {
+        word
+        imageSet {
+          url
+        }
+      }
+    }`
+    })
+  }).then(resp => resp.json())
+}
 </script>
 
 <main>
@@ -10,18 +28,20 @@ let starData
     <span>您的生日是</span>
     <input type="date" bind:value={date}/>
   </div>
-  <button on:click={() => {
-    starData = {
-      description: `属于您的深空天体是NGC2266，它是位于双子座的疏散星团,视星等为9.5。
-适合观测这一天体的纬度范围是南纬28.0°~北纬82.0°
-在您出生的那一天，这个天体与太阳的赤经差距最大，在午夜前后升上中天，观测条件最好。`,
-      images: ['https://avatars.githubusercontent.com/u/23495403']
-    }
-  }}>查看</button>
-  {#if starData}
-  <StarCard {...starData} />
-  {/if}
-
+  <button on:click={queryStar}>查看</button>
+  <div>
+    {#await starDataPromise}
+      Loading...
+    {:then starData}
+      {#if starData?.data?.birth}
+        <StarCard description={starData.data.birth.word} images={starData.data.birth.imageSet} />
+      {:else if starData}
+        出了点问题，无法获取信息
+      {/if}
+    {:catch}
+      出了点问题，无法获取信息
+    {/await}
+  </div>
 </main>
 
 <style>
