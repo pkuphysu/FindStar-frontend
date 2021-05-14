@@ -1,11 +1,25 @@
 <script>
+import { onMount } from 'svelte'
 import StarCard from './lib/StarCard.svelte'
 let date = '1996-08-17'
 let starDataPromise
 let prevDate
+
+onMount(() => {
+  window.laydate.render({
+    elem: '#date-input',
+    min: '1930-01-01',
+    max: '2020-12-31',
+    value: date,
+    done: value => {
+      date = value
+    }
+  })
+})
+
 const queryStar = () => {
   prevDate = date
-  starDataPromise = fetch('https://find-star.xgb.phy.pku.edu.cn/graphql/', {
+  starDataPromise = fetch('http://find-star.xgb.phy.pku.edu.cn/graphql/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -25,10 +39,10 @@ const queryStar = () => {
 </script>
 
 <main>
-  <h1>寻找星星</h1>
+  <h1>寻找属于你的星星</h1>
   <div class="vert-center">
     <span>您的生日是</span>
-    <input type="date" bind:value={date} min="1930-01-01" max="2020-12-31" />
+    <input id="date-input" />
   </div>
   <button
     on:click={queryStar}
@@ -59,11 +73,14 @@ main {
   text-align: center;
   margin: auto;
   max-width: 400px;
-  color: #dbdbdb;
+  color: #ddd;
+}
+h1 {
+  color: #ccc;
 }
 button {
   background-color: #0b4b0f;
-  color: #dbdbdb;
+  color: #ddd;
   padding: 10px 20px;
   margin: 10px;
   border: none;
@@ -74,9 +91,10 @@ button:disabled {
   background-color: #161f27;
   color: #929191;
 }
-input[type=date] {
-  background-color: #2d3947;;
-  color: #bdbdbd;
+input {
+  background-color: #223;
+  max-width: 100px;
+  color: #ddd;
   border: none;
   padding: 5px;
 }
