@@ -1,11 +1,12 @@
 <script>
 import { onMount } from 'svelte'
 import StarCard from './lib/StarCard.svelte'
-let date = '1996-08-17'
+let date = '2000-05-21'
 let starDataPromise
 let prevDate
 
 onMount(() => {
+  // @ts-ignore
   window.laydate.render({
     elem: '#date-input',
     min: '1930-01-01',
@@ -39,7 +40,7 @@ const queryStar = () => {
 </script>
 
 <main>
-  <h1>寻找属于你的星星</h1>
+  <h1>521 来自宇宙的告白</h1>
   <div class="vert-center">
     <span>您的生日是</span>
     <input id="date-input" />
@@ -48,7 +49,7 @@ const queryStar = () => {
     on:click={queryStar}
     disabled={prevDate === date}
   >
-    查看
+    收下礼物
   </button>
   <div>
     {#await starDataPromise}

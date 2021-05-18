@@ -9,8 +9,11 @@
   <img src={image.url} alt="星星的图片" />
   {/each}
   <div class="footnote">
+    <img class="qrcode" width="100" src="qrcode.jpg" alt="QR Code">
+    <p>扫描二维码，后台回复“521”，寻找属于你的星星吧！</p>
     <p>数据来源：北京大学青年天文学会（学生社团）</p>
     <p>图片来源：cseligman.com</p>
+    <div class="float-clear"></div>
   </div>
 </div>
 
@@ -37,5 +40,11 @@ img {
 .footnote {
   font-size: small;
   text-align: left;
+}
+.qrcode {
+  float: right;
+}
+.float-clear {
+  clear: both;
 }
 </style>
