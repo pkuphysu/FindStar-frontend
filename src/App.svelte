@@ -1,42 +1,42 @@
 <script>
-import { onMount } from 'svelte'
-import StarCard from './lib/StarCard.svelte'
-let date = '2000-05-21'
-let starDataPromise
-let prevDate
+  import { onMount } from 'svelte'
+  import StarCard from './lib/StarCard.svelte'
+  let date = '2000-05-21'
+  let starDataPromise
+  let prevDate
 
-onMount(() => {
-  // @ts-ignore
-  window.laydate.render({
-    elem: '#date-input',
-    min: '1930-01-01',
-    max: '2020-12-31',
-    value: date,
-    done: value => {
-      date = value
-    }
-  })
-})
-
-const queryStar = () => {
-  prevDate = date
-  starDataPromise = fetch('http://find-star.xgb.phy.pku.edu.cn/graphql/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      query: `query {
-        birth (date:"${date}") {
-          word
-          imageSet {
-            url
-          }
-        }
-      }`
+  onMount(() => {
+    // @ts-ignore
+    window.laydate.render({
+      elem: '#date-input',
+      min: '1930-01-01',
+      max: '2020-12-31',
+      value: date,
+      done: (value) => {
+        date = value
+      }
     })
-  }).then((resp) => resp.json())
-}
+  })
+
+  const queryStar = () => {
+    prevDate = date
+    starDataPromise = fetch('http://find-star.xgb.phy.pku.edu.cn/graphql/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        query: `query {
+          birth (date:"${date}") {
+            word
+            imageSet {
+              url
+            }
+          }
+        }`
+      })
+    }).then((resp) => resp.json())
+  }
 </script>
 
 <main>
@@ -45,12 +45,7 @@ const queryStar = () => {
     <span>您的生日是</span>
     <input id="date-input" />
   </div>
-  <button
-    on:click={queryStar}
-    disabled={prevDate === date}
-  >
-    收下礼物
-  </button>
+  <button on:click={queryStar} disabled={prevDate === date}> 收下礼物 </button>
   <div>
     {#await starDataPromise}
       Loading...
@@ -70,36 +65,44 @@ const queryStar = () => {
 </main>
 
 <style>
-main {
-  text-align: center;
-  margin: auto;
-  max-width: 400px;
-  color: #ddd;
-}
-h1 {
-  color: #ccc;
-}
-button {
-  background-color: #0b4b0f;
-  color: #ddd;
-  padding: 10px 20px;
-  margin: 10px;
-  border: none;
-  border-radius: 5px;
-  font-size: large;
-}
-button:disabled {
-  background-color: #161f27;
-  color: #929191;
-}
-input {
-  background-color: #223;
-  max-width: 100px;
-  color: #ddd;
-  border: none;
-  padding: 5px;
-}
-.vert-center * {
-  vertical-align: baseline;
-}
+  :global(html) {
+    background-image: url('/bg.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    background-attachment: fixed;
+  }
+  main {
+    text-align: center;
+    margin: auto;
+    max-width: 400px;
+    color: #ddd;
+  }
+  h1 {
+    color: #ccc;
+  }
+  button {
+    background-color: #0b4b0f;
+    color: #ddd;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: large;
+  }
+  button:disabled {
+    background-color: #161f27;
+    color: #929191;
+  }
+  input {
+    background-color: #223;
+    max-width: 100px;
+    color: #ddd;
+    border: none;
+    padding: 5px;
+  }
+  .vert-center * {
+    vertical-align: baseline;
+  }
 </style>
