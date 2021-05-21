@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte'
+  import PosterViewer from './lib/PosterViewer.svelte'
   import StarCard from './lib/StarCard.svelte'
   let date = '2000-05-21'
   let starDataPromise
@@ -32,6 +33,9 @@
             imageSet {
               url
             }
+            post {
+              post
+            }
           }
         }`
       })
@@ -55,6 +59,7 @@
           description={starData.data.birth.word}
           images={starData.data.birth.imageSet}
         />
+        <PosterViewer src={starData.data.birth.post.post} />
       {:else if starData}
         出了点问题，无法获取信息
       {/if}
