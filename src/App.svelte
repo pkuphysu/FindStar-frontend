@@ -44,7 +44,7 @@
 </script>
 
 <main>
-  <h1>521 来自宇宙的告白</h1>
+  <h1>寻找属于你的星光</h1>
   <div class="vert-center">
     <span>您的生日是</span>
     <input id="date-input" />
