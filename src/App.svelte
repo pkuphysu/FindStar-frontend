@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte'
-  import PosterViewer from './lib/PosterViewer.svelte'
+  // import PosterViewer from './lib/PosterViewer.svelte'
   import StarCard from './lib/StarCard.svelte'
   let date = '2000-05-21'
   let starDataPromise
@@ -11,7 +11,7 @@
     window.laydate.render({
       elem: '#date-input',
       min: '1930-01-01',
-      max: '2020-12-31',
+      max: '2022-05-16',
       value: date,
       done: (value) => {
         date = value
@@ -59,7 +59,7 @@
           description={starData.data.birth.word}
           images={starData.data.birth.imageSet}
         />
-        <PosterViewer src={starData.data.birth.post.post} />
+        <!-- <PosterViewer src={starData.data.birth.post.post} /> -->
       {:else if starData}
         出了点问题，无法获取信息
       {/if}
