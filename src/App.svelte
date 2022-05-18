@@ -1,23 +1,10 @@
 <script>
-  import { onMount } from 'svelte'
+  import { DateInput } from 'date-picker-svelte'
   // import PosterViewer from './lib/PosterViewer.svelte'
   import StarCard from './lib/StarCard.svelte'
-  let date = '2000-05-21'
+  let date = new Date('2000-05-21')
   let starDataPromise
   let prevDate
-
-  onMount(() => {
-    // @ts-ignore
-    window.laydate.render({
-      elem: '#date-input',
-      min: '1930-01-01',
-      max: '2022-05-16',
-      value: date,
-      done: (value) => {
-        date = value
-      }
-    })
-  })
 
   const queryStar = () => {
     prevDate = date
@@ -28,7 +15,7 @@
       },
       body: JSON.stringify({
         query: `query {
-          birth (date:"${date}") {
+          birth (date:"${date.toISOString().split('T')[0]}") {
             word
             imageSet {
               url
@@ -47,7 +34,18 @@
   <h1>寻找属于你的星光</h1>
   <div class="vert-center">
     <span>您的生日是</span>
-    <input id="date-input" />
+    <DateInput 
+      bind:value={date}
+      closeOnSelection={true}
+      format="yyyy-MM-dd"
+      min={new Date('1930-01-01')}
+      max={new Date('2022-05-16')}
+      locale={{
+        weekdays: [...'日一二三四五六'],
+        months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+        weekStartsOn: 1
+      }} />
+    <!-- <input id="date-input" /> -->
   </div>
   <button on:click={queryStar} disabled={prevDate === date}> 收下礼物 </button>
   <div>
@@ -78,6 +76,13 @@
     height: 100%;
     background-attachment: fixed;
   }
+  :global(:root) {
+    --date-picker-background: #1b1e27;
+    --date-picker-foreground: #f7f7f7;
+  }
+  :global(.date-time-field) {
+    display: inline-block;
+  }
   main {
     text-align: center;
     margin: auto;
@@ -99,13 +104,6 @@
   button:disabled {
     background-color: #161f27;
     color: #929191;
-  }
-  input {
-    background-color: #223;
-    max-width: 100px;
-    color: #ddd;
-    border: none;
-    padding: 5px;
   }
   .vert-center * {
     vertical-align: baseline;
